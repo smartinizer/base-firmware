@@ -6,6 +6,4 @@ RUN pio run -d .
 
 
 FROM nginx:alpine
-
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/.pio/build/esp32doit-devkit-v1/firmware.bin /usr/share/nginx/html/firmware.bin
