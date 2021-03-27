@@ -3,7 +3,7 @@
 #include <config.hh>
 #include <connection.hh>
 #include <webserver.hh>
-
+#include <ota.hh>
 
 Connection* connectionHandler;
 WebServer* webserver;
@@ -28,9 +28,10 @@ void setup() {
       connectionHandler->wifi_ap_setup();
     }
     webserver = new WebServer();
+    startUpdate()
 }
 
 
 void loop() {
-
+  ota_loop();
 }
