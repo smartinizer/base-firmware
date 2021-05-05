@@ -17,6 +17,9 @@ class WebServer{
         server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
             request->send(SPIFFS, "/index.html", String(), false);
         });
+        server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
+            request->send(SPIFFS, "/config.html", String(), false);
+        });
 
         // Route to load style.css file
         server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -35,6 +38,12 @@ class WebServer{
             config::writeWifiCredentials(ssid,pw);
             request->redirect("/");
             ESP.restart();
+        });
+        // Install new Firmware
+        server.on("/install", HTTP_POST, [](AsyncWebServerRequest *request){
+            Serial.println("Starting new Firmware installation!!");
+            server.end();
+            update::shedule_update("https://smartinizer.devzero.cloud/firmware.bin");
         });
         server.onNotFound(notFound);
 

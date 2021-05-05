@@ -23,6 +23,43 @@ namespace config{
 
     }
 
+    
+    void writeUpdateConfig(String firmware_url){
+        File config = SPIFFS.open("/update.conf", "w");
+        if (!config){
+            Serial.println("Konnte update.conf nicht schreiben");
+        }else{
+            config.print(firmware_url);
+            config.close();
+        }
+    }
+
+    boolean checkForUpdateConfig(){
+        return SPIFFS.exists("/update.conf");
+    }
+
+    String getUpdateConfig(){
+        File config = SPIFFS.open("/update.conf", "r");
+        String update_config = "";
+        if (!config){
+            Serial.println("Konnte update.conf nicht lesen");
+        }else{
+            update_config = config.readString();
+        }
+        return update_config;
+    }
+
+    void deleteUpdateConfig(){
+        File config = SPIFFS.open("/update.conf", "w");
+        if (!config){
+            Serial.println("Konnte update.conf nicht öffnen");
+        }else{
+            config.close();
+            SPIFFS.remove("/update.conf");
+        }
+    }
+
+
     std::tuple<String, String> getWifiCredentialsfromwpaconf() {
         File wpar = SPIFFS.open("/wpa.conf", "r");
         if (!wpar){

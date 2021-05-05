@@ -2,8 +2,8 @@
 #include <SPIFFS.h>
 #include <config.hh>
 #include <connection.hh>
-#include <webserver.hh>
 #include <ota.hh>
+#include <webserver.hh>
 
 Connection* connectionHandler;
 WebServer* webserver;
@@ -11,7 +11,6 @@ WebServer* webserver;
 
 void setup() {
     Serial.begin(115200);
-
     if(!SPIFFS.begin()){
         Serial.println("An Error has occurred while mounting SPIFFS");
     }
@@ -27,11 +26,11 @@ void setup() {
       Serial.println("Cant find config");
       connectionHandler->wifi_ap_setup();
     }
+    update::update_if_sheduled();
     webserver = new WebServer();
-    startUpdate()
 }
 
 
 void loop() {
-  ota_loop();
+  
 }
