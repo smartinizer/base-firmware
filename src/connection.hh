@@ -51,7 +51,8 @@ class Connection {
           ESP.restart();
         }
       }while(status !=WL_CONNECTED);
-  
+
+      connected = true;
       Serial.println();
       Serial.print("IP Address: ");
       Serial.println(WiFi.localIP());

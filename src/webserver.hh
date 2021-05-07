@@ -2,6 +2,7 @@
 #include <SPIFFS.h>
 #include <iostream>
 #include <string>
+#include <webbuilder.hh>
 
 AsyncWebServer server(80);
 
@@ -17,8 +18,11 @@ class WebServer{
         server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
             request->send(SPIFFS, "/index.html", String(), false);
         });
+        server.on("/wifi", HTTP_GET, [](AsyncWebServerRequest *request){
+            request->send(SPIFFS, "/wifi.html", String(), false);
+        });
         server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
-            request->send(SPIFFS, "/config.html", String(), false);
+            request->send(200,"text/html", webbuilder::getConfigPage());
         });
 
         // Route to load style.css file
