@@ -1,0 +1,19 @@
+{
+    "firmwares": [
+        {
+            "name": "Test1",
+            "description": "The first testing firmware",
+            "url": "test1.smartinizer.devzero.cloud"
+        },
+        {
+            "name": "Test2",
+            "description": "The second testing firmware",
+            "url": "test2.smartinizer.devzero.cloud"
+        },
+        {
+            "name": "Test3",
+            "description": "The third testing firmware",
+            "url": "test3.smartinizer.devzero.cloud"
+        }
+    ]
+}

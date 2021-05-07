@@ -5,6 +5,7 @@
 #include <ota.hh>
 #include <webserver.hh>
 
+
 Connection* connectionHandler;
 WebServer* webserver;
 
@@ -27,6 +28,7 @@ void setup() {
       connectionHandler->wifi_ap_setup();
     }
     update::update_if_sheduled();
+    config::downloadFirmwareList("https://smartinizer.devzero.cloud/firmwares.json");
     webserver = new WebServer();
 }
 

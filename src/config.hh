@@ -1,5 +1,6 @@
 #include <SPIFFS.h>
 #include <tuple>
+#include <HTTPClient.h>
 
 
 namespace config{
@@ -76,4 +77,41 @@ namespace config{
         return std::make_tuple("","");
     }
 
+    void downloadFirmwareList(String url){
+        File file = SPIFFS.open("/downloads/firmwares.json", "w");
+        if(!file){
+            Serial.println("Konnte /downloads/firmwares.json nicht schreiben");
+            return;
+        }
+
+        HTTPClient http;
+        Serial.print("[HTTP] begin...\n");
+
+        http.begin(url); //HTTP
+        int httpCode = http.GET();
+
+        // httpCode will be negative on error
+        if(httpCode > 0) {
+            // file found at server
+            if(httpCode == HTTP_CODE_OK) {
+                file.print(http.getString());
+                Serial.println("Wrote Firmware-List to SPIFFS");
+            }
+        } else {
+            Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+        }
+        file.close();
+        http.end();
+    }
+
+    String getFirmwareList(){
+        File file = SPIFFS.open("/downloads/firmwares.json", "r");
+        String firmware_list = "";
+        if (!file){
+            Serial.println("Konnte update.conf nicht lesen");
+        }else{
+            firmware_list = file.readString();
+        }
+        return firmware_list;
+    }
 }
