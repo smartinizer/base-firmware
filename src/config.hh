@@ -1,6 +1,8 @@
 #include <SPIFFS.h>
 #include <tuple>
 #include <HTTPClient.h>
+#include <ArduinoJson.h>
+
 
 namespace config
 {
@@ -36,6 +38,7 @@ namespace config
         "MldlTTKB3zhThV1+XWYp6rjd5JW1zbVWEkLNxE7GJThEUG3szgBVGP7pSWTUTsqX\n"
         "nLRbwHOoq7hHwg==\n"
         "-----END CERTIFICATE-----\n";
+
 
     void writeWifiCredentials(String ssid, String pw)
     {
@@ -255,6 +258,32 @@ namespace config
     }
 
     void writeFirmwareConfig(String firmwareConfig){
-        return;
+        File config = SPIFFS.open("/firmware-config.json", "w");
+        if (!config)
+        {
+            Serial.println("Konnte firmware-config.json nicht schreiben");
+        }
+        else
+        {
+            config.print(firmwareConfig);
+            config.close();
+        }
+    }
+
+    String getConfigByKey(String key){
+        File file = SPIFFS.open("/firmware-config.json", "r");
+        StaticJsonDocument<2014> doc;
+        if (!file)
+        {
+            Serial.println("Konnte firmware-config.json nicht lesen");
+        }
+        else
+        {
+            String content = file.readString();
+            deserializeJson(doc, content);
+            file.close();
+        }
+        JsonObject obj = doc.as<JsonObject>();
+        return obj[key].as<String>();
     }
 }
