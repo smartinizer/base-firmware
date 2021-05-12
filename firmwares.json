@@ -1,6 +1,7 @@
 {
     "firmwares": [
         {
+
             "name": "Relais",
             "description": "This firmware enables you to manage a Relais with MQTT commands.",
             "url": "https://relais.smartinizer.devzero.cloud/config.json"
