@@ -13,8 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t registry.devzero.cloud/clubwork/registry/${{ github.event.repository.name }}:dev-${GITHUB_SHA}  .
+      run: docker build -t registry.devzero.cloud/clubwork/registry/${{ github.event.repository.name }}:${GITHUB_RUN_NUMBER} .
     - name: Log into registry
       run: echo "${{ secrets.CLUBWORKREGISTRY }}" | docker login registry.devzero.cloud -u maxlamprecht --password-stdin
     - name: Push image
-      run: docker push registry.devzero.cloud/clubwork/registry/${{ github.event.repository.name }}:dev-${GITHUB_SHA}
+      run: docker push registry.devzero.cloud/clubwork/registry/${{ github.event.repository.name }}:${GITHUB_RUN_NUMBER}
