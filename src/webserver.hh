@@ -43,11 +43,24 @@ class WebServer{
             request->redirect("/");
             ESP.restart();
         });
+        //configure-firmware
+        server.on("/config-firmware", HTTP_GET, [](AsyncWebServerRequest *request){
+            Serial.print("Connect pressed!!");
+            AsyncWebParameter* p = request->getParam(0);
+            String firmware = p->value();
+            request->send(200,"text/html", webbuilder::getFirmwareConfigPage(firmware));
+        });
         // Install new Firmware
-        server.on("/install", HTTP_POST, [](AsyncWebServerRequest *request){
-            Serial.println("Starting new Firmware installation!!");
-            server.end();
-            update::shedule_update("https://smartinizer.devzero.cloud/firmware.bin");
+        server.on("/install", HTTP_GET, [](AsyncWebServerRequest *request){
+            AsyncWebParameter* p = request->getParam(0);
+            String config = p->value();
+            p = request->getParam(1);
+            String firmwareUrl = p->value();
+            Serial.println("Firmware Config: " + config);
+            Serial.println("Firmware Url: " + firmwareUrl);
+            request->send(SPIFFS, "/installing-firmware.html", String(), false);
+            // server.end();
+            // update::shedule_update("https://smartinizer.devzero.cloud/firmware.bin");
         });
         server.onNotFound(notFound);
 
