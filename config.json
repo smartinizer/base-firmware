@@ -1,0 +1,6 @@
+  
+{
+    "name": "Base-Firmware",
+    "firmware": "https://smartinizer.devzero.cloud/firmware.bin",
+    "config-schema": []
+  }
