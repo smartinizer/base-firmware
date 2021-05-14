@@ -34,7 +34,7 @@
 
   function submit(){
     var success = true;
-    var result = ""
+    var result = {};
     console.log("Test");
     for(var i = 0; i < obj["config-schema"].length; i++){
       var option = obj["config-schema"][i];
@@ -44,12 +44,12 @@
         success = false;
         document.getElementById("error").innerHTML = "Failed to match Pattern for Config-Element <b>" + option.key + "</b>!";
       }
-      result += option.key + ":" + value + ";"
+      result[option.key] = value;
     }
     if(success){
       document.getElementById("error").innerHTML = "";
       console.log(result);
-      window.location.href = "/install?config=" + result + "&firmware=" + obj["firmware"];
+      window.location.href = "/install?config=" + JSON.stringify(result) + "&firmware=" + obj["firmware"];
     }
   }
 </script>

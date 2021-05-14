@@ -59,8 +59,9 @@ class WebServer{
             Serial.println("Firmware Config: " + config);
             Serial.println("Firmware Url: " + firmwareUrl);
             request->send(SPIFFS, "/installing-firmware.html", String(), false);
-            // server.end();
-            // update::shedule_update("https://smartinizer.devzero.cloud/firmware.bin");
+            server.end();
+            config::writeFirmwareConfig(config);
+            update::shedule_update(firmwareUrl);
         });
         server.onNotFound(notFound);
 
